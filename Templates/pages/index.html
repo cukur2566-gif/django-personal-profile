@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Personal Profile</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px 16px;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .profile-card {
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        header {
+            background: #1d4ed8;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        header h1 {
+            margin: 0 0 10px;
+        }
+
+        .content {
+            padding: 28px;
+        }
+
+        .info-row {
+            padding: 14px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .label {
+            display: block;
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .value {
+            font-size: 16px;
+            font-weight: bold;
+            overflow-wrap: anywhere;
+        }
+
+        footer {
+            text-align: center;
+            padding: 18px;
+            background: #f8fafc;
+            color: #64748b;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="profile-card">
+
+        <header>
+            <h1>My Personal Profile</h1>
+            <p>Web Computing Student</p>
+        </header>
+
+        <section class="content">
+
+            <div class="info-row">
+                <span class="label">Full Name</span>
+                <div class="value">
+                    {{ first_name|capfirst|add:" "|add:last_name }}
+                </div>
+            </div>
+
+            <div class="info-row">
+                <span class="label">Student ID</span>
+                <div class="value">
+                    {{ student_id|stringformat:"s" }}
+                </div>
+            </div>
+
+            <div class="info-row">
+                <span class="label">Address</span>
+                <div class="value">
+                    {{ address|upper }}
+                </div>
+            </div>
+
+            <div class="info-row">
+                <span class="label">Email Address</span>
+                <div class="value">
+                    {{ email|default:"Not provided" }}
+                </div>
+            </div>
+
+            <div class="info-row">
+                <span class="label">Date of Birth</span>
+                <div class="value">
+                    {{ date_of_birth|timesince }} ago
+                </div>
+            </div>
+
+            <div class="info-row">
+                <span class="label">Major</span>
+                <div class="value">{{ major }}</div>
+            </div>
+
+            <div class="info-row">
+                <span class="label">University</span>
+                <div class="value">{{ university }}</div>
+            </div>
+
+            <div class="info-row">
+                <span class="label">Academic Level</span>
+                <div class="value">{{ academic_level }}</div>
+            </div>
+
+            <div class="info-row">
+                <span class="label">Career Goal</span>
+                <div class="value">{{ career_goal }}</div>
+            </div>
+
+        </section>
+
+        <footer>
+            Created with Django and HTML
+        </footer>
+
+    </main>
+</body>
+</html>
