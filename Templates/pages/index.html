@@ -1,146 +1,214 @@
 
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Personal Profile</title>
+    <title>Student Profile | Home Page</title>
 
     <style>
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            margin: 0;
-            padding: 40px 16px;
             font-family: Arial, sans-serif;
             background: #f1f5f9;
             color: #1e293b;
+            padding: 40px 20px;
         }
 
-        .profile-card {
-            max-width: 650px;
+        .container {
+            max-width: 1050px;
             margin: auto;
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
         }
 
         header {
-            background: #1d4ed8;
+            background: #0f172a;
             color: white;
-            text-align: center;
-            padding: 30px 20px;
+            padding: 28px;
+            border-radius: 16px;
+            margin-bottom: 28px;
         }
 
         header h1 {
-            margin: 0 0 10px;
+            font-size: 28px;
+            margin-bottom: 8px;
         }
 
-        .content {
+        header p {
+            color: #cbd5e1;
+        }
+
+        .section-title {
+            margin-bottom: 18px;
+            font-size: 22px;
+        }
+
+        .student-card {
+            display: flex;
+            gap: 28px;
+            background: white;
+            border-radius: 16px;
             padding: 28px;
+            margin-bottom: 22px;
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.07);
         }
 
-        .info-row {
-            padding: 14px 0;
-            border-bottom: 1px solid #e2e8f0;
+        .student-photo {
+            width: 180px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            background: #e2e8f0;
+            flex-shrink: 0;
+        }
+
+        .student-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .student-info h3 {
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .student-id {
+            color: #2563eb;
+            margin-bottom: 22px;
+            font-weight: bold;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .detail {
+            padding: 14px;
+            background: #f8fafc;
+            border-radius: 10px;
+            overflow-wrap: anywhere;
         }
 
         .label {
             display: block;
             color: #64748b;
-            font-size: 13px;
-            margin-bottom: 6px;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 7px;
         }
 
         .value {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
-            overflow-wrap: anywhere;
+        }
+
+        .empty {
+            background: white;
+            padding: 35px;
+            text-align: center;
+            border-radius: 12px;
         }
 
         footer {
             text-align: center;
-            padding: 18px;
-            background: #f8fafc;
             color: #64748b;
+            margin-top: 30px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 650px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .student-card {
+                flex-direction: column;
+                padding: 18px;
+            }
+
+            .student-photo {
+                width: 100%;
+                height: 240px;
+            }
+
+            .details {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 23px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <main class="profile-card">
-
+    <main class="container">
         <header>
-            <h1>My Personal Profile</h1>
-            <p>Web Computing Student</p>
+            <h1>Student Profile</h1>
+            <p>Student information management system</p>
         </header>
 
-        <section class="content">
+        <h2 class="section-title">Student Information</h2>
 
-            <div class="info-row">
-                <span class="label">Full Name</span>
-                <div class="value">
-                    {{ first_name|capfirst|add:" "|add:last_name }}
+        {% for student in students %}
+            <article class="student-card">
+                {% if student.photo %}
+                    <img
+                        class="student-photo"
+                        src="{{ student.photo.url }}"
+                        alt="{{ student.full_name }}"
+                    >
+                {% else %}
+                    <div class="student-photo"></div>
+                {% endif %}
+
+                <div class="student-info">
+                    <h3>{{ student.full_name|capfirst }}</h3>
+                    <p class="student-id">
+                        University ID: {{ student.university_id }}
+                    </p>
+
+                    <div class="details">
+                        <div class="detail">
+                            <span class="label">Age</span>
+                            <span class="value">{{ student.age }}</span>
+                        </div>
+
+                        <div class="detail">
+                            <span class="label">Date of Birth</span>
+                            <span class="value">{{ student.date_of_birth|date:"F d, Y" }}</span>
+                        </div>
+
+                        <div class="detail">
+                            <span class="label">Address</span>
+                            <span class="value">{{ student.address|upper }}</span>
+                        </div>
+
+                        <div class="detail">
+                            <span class="label">Salary</span>
+                            <span class="value">{{ student.salary|floatformat:2 }}</span>
+                        </div>
+                    </div>
                 </div>
+            </article>
+        {% empty %}
+            <div class="empty">
+                <h3>No student records found</h3>
+                <p>Please add a student through the admin page.</p>
             </div>
-
-            <div class="info-row">
-                <span class="label">Student ID</span>
-                <div class="value">
-                    {{ student_id|stringformat:"s" }}
-                </div>
-            </div>
-
-            <div class="info-row">
-                <span class="label">Address</span>
-                <div class="value">
-                    {{ address|upper }}
-                </div>
-            </div>
-
-            <div class="info-row">
-                <span class="label">Email Address</span>
-                <div class="value">
-                    {{ email|default:"Not provided" }}
-                </div>
-            </div>
-
-            <div class="info-row">
-                <span class="label">Date of Birth</span>
-                <div class="value">
-                    {{ date_of_birth|timesince }} ago
-                </div>
-            </div>
-
-            <div class="info-row">
-                <span class="label">Major</span>
-                <div class="value">{{ major }}</div>
-            </div>
-
-            <div class="info-row">
-                <span class="label">University</span>
-                <div class="value">{{ university }}</div>
-            </div>
-
-            <div class="info-row">
-                <span class="label">Academic Level</span>
-                <div class="value">{{ academic_level }}</div>
-            </div>
-
-            <div class="info-row">
-                <span class="label">Career Goal</span>
-                <div class="value">{{ career_goal }}</div>
-            </div>
-
-        </section>
+        {% endfor %}
 
         <footer>
-            Created with Django and HTML
+            Django Student Profile Project
         </footer>
-
     </main>
 </body>
 </html>
